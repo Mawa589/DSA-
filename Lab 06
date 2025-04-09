@@ -1,0 +1,19 @@
+Task 
+void deleteAtBeginning(Node* &head)
+{
+    if (head==nullptr) return;
+
+    Node* temp=head;
+    head=head->next;
+
+    if (head)
+    {
+        head->prev = nullptr;
+    }
+    delete temp;
+}
+
+
+
+
+
