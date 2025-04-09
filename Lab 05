@@ -1,0 +1,273 @@
+
+Task 1
+#include<iostream>
+using namespace std;
+struct Node
+{
+    int data;
+    Node* prev;
+    Node* next;
+};
+void InsertAtBeginning(Node*& head,int data)
+{
+    Node* newNode=new Node;
+    newNode->data=data;
+    newNode->prev=NULL;
+    newNode->next=head;
+    if(head!=NULL)
+	{
+        head->prev=newNode;
+    }
+    head=newNode;
+}
+void InsertAfterValue45(Node*& head,int data)
+{
+    Node* temp=head;
+    while(temp!=NULL)
+	{
+        if(temp->data==45)
+		{
+            Node* newNode=new Node;
+            newNode->data=data;
+            newNode->next=temp->next;
+            newNode->prev=temp;
+            if(temp->next!=NULL)
+			{
+                temp->next->prev=newNode;
+            }
+            temp->next=newNode;
+            return;
+        }
+        temp=temp->next;
+    }
+    cout<<"Value 45 not found in the list: "<<endl;
+}
+void display(Node* head)
+{
+    Node* temp=head;
+    while(temp!=NULL)
+	{
+        cout<<temp->data<<"->";
+        temp=temp->next;
+    }
+    cout<<"NULL: "<<endl;
+}
+int main()
+{
+    Node* head=NULL;
+    int n,data;
+    cout<<"Enter the number of elements: ";
+    cin>>n;
+    for(int i=0;i<n;i++)
+	{
+        cout<<"Enter value: ";
+        cin>>data;
+        InsertAtBeginning(head,data);
+    }
+    cout<<"Doubly Linked List: ";
+    display(head);
+    cout<<"Enter value to insert after 45: ";
+    cin>>data;
+    InsertAfterValue45(head,data);
+    cout<<"Updated Doubly Linked List: ";
+    display(head);
+    return 0;
+}
+
+  
+
+
+Task 2
+#include<iostream>
+#include<string>
+using namespace std;
+struct Player
+{
+    string name;
+    int score;
+    Player* next;
+    Player* prev;
+    Player(string playerName,int playerScore)
+	{
+        name=playerName;
+        score=playerScore;
+        next=prev=nullptr;
+    }
+};
+void insertPlayer(Player*& head,string name,int score)
+{
+    Player* newPlayer=new Player(name,score);
+    if(!head || score<head->score)
+	{ 
+        newPlayer->next=head;
+        if(head)head->prev=newPlayer;
+        head = newPlayer;
+        return;
+    }
+    Player* temp=head;
+    while(temp->next && temp->next->score<=score)
+	{
+        temp=temp->next;
+    }
+    newPlayer->next=temp->next;
+    if(temp->next)temp->next->prev=newPlayer;
+    temp->next=newPlayer;
+    newPlayer->prev=temp;
+}
+void displayPlayers(Player* head)
+{
+    if(!head)
+	{
+        cout<<"No players in the list.\n";
+        return;
+    }
+    cout<<"Players and Scores:\n";
+    while(head)
+	{
+        cout<<head->name<<" - "<<head->score<<endl;
+        head=head->next;
+    }
+}
+int main()
+{
+    Player* head=nullptr;
+    int choice;
+    do
+	{
+        cout<<"\n1. Add Player\n2. Display Players\n3. Exit\nEnter choice: ";
+        cin>>choice;
+        if(choice==1)
+		{
+            string name;
+            int score;
+            cout<<"Enter player name: ";
+            cin>>name;
+            cout<<"Enter player score: ";
+            cin>>score;
+            insertPlayer(head,name,score);
+        } 
+        else if(choice==2)
+		{
+            displayPlayers(head);
+        }
+	}
+	while(choice!=3);
+    return 0;
+}
+
+
+
+Task 3
+#include<iostream>
+using namespace std;
+struct Node
+{
+    int data;
+    Node* next;
+    Node(int value)
+	{
+        data=value;
+        next=nullptr;
+    }
+};
+void insertEnd(Node*& head,int value)
+{
+    Node* newNode=new Node(value);
+    if(!head)
+	{
+        head=newNode;
+    }
+	else
+	{
+        Node* temp=head;
+        while(temp->next)
+		{
+            temp=temp->next;
+        }
+        temp->next=newNode;
+    }
+}
+int totalRainfall(Node* head)
+{
+    int total=0;
+    while(head)
+	{
+        total+=head->data;
+        head=head->next;
+    }
+    return total;
+}
+void findMinMax(Node* head,int& minVal,int& maxVal,int& minDay,int& maxDay)
+{
+    minVal=maxVal=head->data;
+    minDay=maxDay=1;
+    int day=1;
+    while(head)
+	{
+        if(head->data>maxVal)
+		{
+            maxVal=head->data;
+            maxDay=day;
+        }
+        if(head->data<minVal)
+		{
+            minVal=head->data;
+            minDay=day;
+        }
+        head=head->next;
+        day++;
+    }
+}
+int getAfter5th(Node* head)
+{
+    for(int i=0;i<5 && head;i++)
+	{
+        head=head->next;
+    }
+    if(head)
+	{
+    return head->data;
+	}
+	else
+	{
+	return -1;
+	}
+}
+int main()
+{
+    Node* head=nullptr;
+    int rainfall;
+    cout<<"Enter rainfall for 7 days:\n";
+    for(int i=1;i<=7;i++)
+	{
+        do
+		{
+            cout<<"Day "<<i<<": ";
+            cin>>rainfall;
+            if(rainfall<0)
+			{
+                cout<<"Invalid input! Enter a non-negative number.\n";
+            }
+        }
+		while(rainfall<0);
+        insertEnd(head,rainfall);
+    }
+    int total=totalRainfall(head);
+    double average=total/7.0;
+    int minVal,maxVal,minDay,maxDay;
+    findMinMax(head,minVal,maxVal,minDay,maxDay);
+    int after5th=getAfter5th(head);
+    cout<<"Total rainfall for the week: "<<total<<"\n";
+    cout<<"Average weekly rainfall: "<<average<<"\n";
+    cout<<"Highest rainfall on day "<<maxDay<<" with "<<maxVal<<"mm\n";
+    cout<<"Lowest rainfall on day "<<minDay<<" with "<<minVal<<"mm\n";
+    if(after5th!=-1)
+	{
+        cout<<"Rainfall of day after 5th node: "<<after5th<<"mm\n";
+    }
+	else
+	{
+        cout<<"No data available after the 5th day.\n";
+    }
+    return 0;
+}
