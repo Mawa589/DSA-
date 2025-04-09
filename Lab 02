@@ -1,0 +1,92 @@
+TASK 1
+
+PART A
+#include <iostream>
+using namespace std;
+
+int main() 
+{
+    int *ptr = NULL; 
+    int a = 6;
+    int num; 
+
+    if (ptr ==NULL) {
+        cout << "Pointer is null." << endl;
+        cout << "Enter the number: ";
+        cin >> num;
+        ptr = &num; // Point ptr to the address of num
+    } else {
+        cout << "Pointer is not null." << endl;
+        cout << "Value pointed to by ptr: " << *ptr << endl;
+    }
+
+    return 0;
+}
+PART B
+#include <iostream>
+using namespace std;
+int main() {
+    int a = 10;
+    char b = 'x';
+
+    void* p = &a; 
+    cout << "Value of a: " <<p<<endl;
+
+    p = &b; 
+cout << "Value of b: " <<&b<<endl;
+
+    return 0;
+}
+TASK 2
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    int a=10;
+    int b=20;
+    
+    //1st pointer using
+    int *ptr1=&a;
+    int *ptr=&b;
+    
+    //2nd time pointer to pointer using
+    int **q1=&ptr1;
+    int **q=&ptr;
+    
+    cout<<**q1<<endl;
+    cout<<**q;
+
+    return 0;
+}
+TASK 3
+
+#include <iostream>
+using namespace std;
+
+int main() 
+{ 
+    int numbers[] = {10, 20, 30, 40, 50};
+    int *pointer = numbers;
+    
+    cout << "Initial Value at Pointer=" << *pointer << endl;
+    
+    // Increment
+    pointer++;
+    cout << "After Increment=" << *pointer << endl;
+
+    // Decrement
+    pointer--;
+    cout << "After Decrement=" << *pointer << endl;
+
+    // Adding 2
+    pointer += 2;
+    cout << "After Adding 2=" << *pointer << endl;
+
+    // Subtracting 1
+    pointer--;
+    cout << "After Subtracting 1=" << *pointer << endl;
+
+    return 0;
+}
